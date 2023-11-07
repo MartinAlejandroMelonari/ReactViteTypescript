@@ -1,8 +1,9 @@
+import ProductTable from "../components/ProductTable/ProductTable"
 
 const Administracion = () => {
   return (
     <>
-    Administracion
+    <ProductTable/>
     </>
   )
 }

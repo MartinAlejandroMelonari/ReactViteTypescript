@@ -8,89 +8,91 @@ import { toast } from "react-toastify";
 
 type ProductModalProps = {
     show: boolean;
-    onHide:() => void;
-    title: string;
+    onHide: () => void;
+    title:string
     modalType: ModalType;
     prod: Product;
     refreshData: React.Dispatch<React.SetStateAction<boolean>>;
-}
+  };
 
-const ProductModal = ({show,onHide,title,modalType,prod,refreshData}: ProductModalProps) => {
+const ProductModal = ({show, onHide, title, prod, modalType, refreshData}:ProductModalProps)  => {
 
-    const handleSaveUpdate = async (pro:Product) => {
+    const handleSaveUpdate = async (pro: Product) => {
         try {
-            const isNew = prod.id === 0;
-            if(isNew){
+            const isNew = pro.id === 0;
+            if (isNew) {
                 await ProductService.createProduct(pro);
+
             } else {
-                await ProductService.updateProduct(pro.id,pro);
+                await ProductService.updateProduct(pro.id, pro);
             }
-
-            toast.success(isNew ? "Producto creado" : "Producto actualizado", {
+            toast.success(isNew ? "Producto Creado" : "Producto Actualizado", {
                 position: "top-center",
-            });
-
-            onHide();
-            refreshData(prevState => !prevState);
-        }catch (error) {
-            console.error(error);
-            toast.error("Ha ocurrido un error");
-        }
-    };
-
-    const handleDelete = async () => {
-        try{
-            await ProductService.deleteProduct(prod.id);
-
-            toast.success("Producto eliminado con exito", {
-                position: "top-center",
-            });
-
+              });
             onHide();
             refreshData(prevState => !prevState);
         } catch (error) {
             console.error(error);
-            toast.error("Ha ocurrido un error");
+            toast.error('A ocurrido un Error');
+        }
+    };
+
+    const handleDelete = async () => {
+        try {
+            await ProductService.deleteProduct(prod.id);
+            toast.success("Producto Borrado", {
+                position: "top-center",
+              });
+            onHide();
+            refreshData(prevState => !prevState);
+        } catch (error) {
+            console.error(error);
+            toast.error('A ocurrido un Error');
         }
     }
 
     const validationSchema = () => {
         return Yup.object().shape({
-            id: Yup.number().integer().min(0),
-            title: Yup.string().required('El titulo es requerido'),
-            description: Yup.string().min(0).required('El precio es requerido'),
-            category: Yup.string().required('La categoria es requerida'),
-            image: Yup.string().required('La URL de la imagen es Requerida'),
+        id: Yup.number().integer().min(0),
+        title: Yup.string().required('El titulo es requerido'),
+        price: Yup.number().min(0).required('El precio es requerido'),
+        description: Yup.string().required('La descripcion es requerida'),
+        category: Yup.string().required('La categoria es requerida'),
+        image: Yup.string().required('La URL de la imagen es requerida'),
         });
-    };
+     };
 
-    const formik = useFormik({
+
+     const formik = useFormik({
         initialValues: prod,
         validationSchema: validationSchema(),
         validateOnChange: true,
         validateOnBlur: true,
         onSubmit: (obj: Product) => handleSaveUpdate(obj),
-    })
+      });
 
   return (
     <>
         {modalType === ModalType.DELETE} (
-            <>
+                <>
                 <Modal show={show} onHide={onHide} centered backdrop="static">
-                    <Modal.Header closeButton>
-                        <Modal.Title>{title}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p>¿Esta seguro que quiere eliminar el producto?<br/>
-                        <strong>{prod.title}</strong></p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={onHide}>Cancelar</Button>
-                        <Button variant="danger" onClick={handleDelete}>Eliminar</Button>
-                    </Modal.Footer>
-                </Modal>
-            </>
-        ) : (
+                <Modal.Header closeButton>
+                    <Modal.Title>{title}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>¿Está seguro que desea eliminar el Producto?<br/> <strong>{prod.title}</strong>?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={onHide}>
+                    Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={handleDelete}>
+                    Borrar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+                </>
+            ) : (
             <>
                 <Modal show={show} onHide={onHide} centered backdrop="static" className="modal-xl">
                     <Modal.Header closeButton>
@@ -102,19 +104,20 @@ const ProductModal = ({show,onHide,title,modalType,prod,refreshData}: ProductMod
 
                             {"Titulo"}
                             <Form.Group controlId="formTitulo">
-                                <FormLabel>Titulo</FormLabel>
-                                <Form.Control
+                                 <Form.Label>Titulo</Form.Label>
+                                  <Form.Control
                                     name="title"
                                     type="text"
                                     value={formik.values.title || ''}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     isInvalid={Boolean(formik.errors.title && formik.touched.title)}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {formik.errors.title}
+                                     />
+                                 <Form.Control.Feedback type="invalid">
+                                     {formik.errors.title}
                                 </Form.Control.Feedback>
                             </Form.Group>
+
 
                             {"Precio"}
                             <Form.Group controlId="formPrice">
@@ -122,7 +125,7 @@ const ProductModal = ({show,onHide,title,modalType,prod,refreshData}: ProductMod
                                 <Form.Control
                                     name="price"
                                     type="number"
-                                    value={formik.values.title || ''}
+                                    value={formik.values.price || ''}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     isInvalid={Boolean(formik.errors.price && formik.touched.price)}

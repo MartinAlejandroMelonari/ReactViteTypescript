@@ -11,6 +11,7 @@ const DangerInput = () => {
 
   return (
     <div className="m-3 w-50">
+      <h2>Barra de carga</h2>
         <Form.Range value={value} onChange={handleChange}/>
         <DangerBar value={value}/>
     </div>

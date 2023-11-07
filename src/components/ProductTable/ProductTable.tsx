@@ -16,15 +16,15 @@ const ProductTable = () => {
     const [refreshData, setRefreshData] = useState(false);
 
     useEffect(() => {
-        const fetchProducts = async() => {
-            const products = await ProductService.getProducts();
-            setProducts(products);
-            setIsLoading(false);
-        };
-        fetchProducts();
-    },[refreshData]
-    );
-
+                const fetchProducts = async () => {
+                    const products = await ProductService.getProducts();
+                    setProducts(products);
+                    setIsLoading(false);
+                };
+                fetchProducts();
+        
+    }, [refreshData]);
+        
     console.log(JSON.stringify(products,null,2));
 
     const initializableNewProduct = (): Product => {
@@ -68,23 +68,24 @@ const ProductTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map( product => (
-                        <tr key={product.id}>
-                            <td>{product.title}</td>
-                            <td>{product.price}</td>
-                            <td>{product.description}</td>
-                            <td>{product.category}</td>
-                            <td><img src={product.image} alt={product.title} style={{width: '50px'}}/></td>
-                            <td><EditButton onClick={() => handleClick("Editar producto", product, ModalType.UPDATE)}/></td>
-                            <td><DeleteButton onClick={() => handleClick("Borrar producto", product, ModalType.DELETE)}/></td>
-                        </tr>
-                    ))}
+                {products.map(product => (
+                            <tr key={product.id}>
+                                <td>{product.title}</td>
+                                <td>{product.price}</td>
+                                <td>{product.description}</td>
+                                <td>{product.category}</td>
+                                <td><img src={product.image} alt={product.title} style={{width: '50px'}} /></td>
+                                <td><EditButton onClick={() => handleClick("Editar Producto", product, ModalType.UPDATE)}/></td>
+                                <td><DeleteButton onClick={() => handleClick("Borrar Producto", product, ModalType.DELETE)}/></td>
+                            </tr>
+                        ))}
+
                 </tbody>
             </Table>
         )
         }
         {showModal && (
-            <ProductModal
+            <ProductModal                 
             show={showModal}
             onHide={() => setShowModal(false)}
             title={title}
