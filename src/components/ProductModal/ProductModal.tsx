@@ -4,6 +4,7 @@ import { Button, FormLabel, Modal } from "react-bootstrap"
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import { Form } from "react-router-dom";
+import { ProductService } from "../../services/ProductoService";
 
 type ProductModalProps = {
     show: boolean;
@@ -15,13 +16,36 @@ type ProductModalProps = {
 
 const ProductModal = ({show,onHide,title,modalType,prod}: ProductModalProps) => {
 
+    const handleSaveUpdate = async (pro:Product) => {
+        try {
+            const isNew = prod.id === 0;
+            if(isNew){
+                await ProductService.createProduct(pro);
+            } else {
+                await ProductService.updateProduct(pro.id,pro);
+            }
+            onHide();
+        }catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleDelete = async () => {
+        try{
+            await ProductService.deleteProduct(prod.id);
+            onHide();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const validationSchema = () => {
         return Yup.object().shape({
             id: Yup.number().integer().min(0),
             title: Yup.string().required('El titulo es requerido'),
             description: Yup.string().min(0).required('El precio es requerido'),
             category: Yup.string().required('La categoria es requerida'),
-            image: Yup.string(0).required('La URL de la imagen es Requerida'),
+            image: Yup.string().required('La URL de la imagen es Requerida'),
         });
     };
 
@@ -36,7 +60,21 @@ const ProductModal = ({show,onHide,title,modalType,prod}: ProductModalProps) => 
   return (
     <>
         {modalType === ModalType.DELETE} (
-            <>Vacio por ahora</>
+            <>
+                <Modal show={show} onHide={onHide} centered backdrop="static">
+                    <Modal.Header closeButton>
+                        <Modal.Title>{title}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>¿Esta seguro que quiere eliminar el producto?<br/>
+                        <strong>{prod.title}</strong></p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={onHide}>Cancelar</Button>
+                        <Button variant="danger" onClick={handleDelete}>Eliminar</Button>
+                    </Modal.Footer>
+                </Modal>
+            </>
         ) : (
             <>
                 <Modal show={show} onHide={onHide} centered backdrop="static" className="modal-xl">
