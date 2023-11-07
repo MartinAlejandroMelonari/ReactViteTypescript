@@ -1,10 +1,10 @@
 import {ModalType} from "../../types/ModalType"
 import {Product} from "../../types/Product"
-import { Button, FormLabel, Modal } from "react-bootstrap"
+import { Button, FormLabel, Modal, Form } from "react-bootstrap"
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import { Form } from "react-router-dom";
 import { ProductService } from "../../services/ProductoService";
+import { toast } from "react-toastify";
 
 type ProductModalProps = {
     show: boolean;
@@ -12,9 +12,10 @@ type ProductModalProps = {
     title: string;
     modalType: ModalType;
     prod: Product;
+    refreshData: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProductModal = ({show,onHide,title,modalType,prod}: ProductModalProps) => {
+const ProductModal = ({show,onHide,title,modalType,prod,refreshData}: ProductModalProps) => {
 
     const handleSaveUpdate = async (pro:Product) => {
         try {
@@ -24,18 +25,32 @@ const ProductModal = ({show,onHide,title,modalType,prod}: ProductModalProps) => 
             } else {
                 await ProductService.updateProduct(pro.id,pro);
             }
+
+            toast.success(isNew ? "Producto creado" : "Producto actualizado", {
+                position: "top-center",
+            });
+
             onHide();
+            refreshData(prevState => !prevState);
         }catch (error) {
             console.error(error);
+            toast.error("Ha ocurrido un error");
         }
     };
 
     const handleDelete = async () => {
         try{
             await ProductService.deleteProduct(prod.id);
+
+            toast.success("Producto eliminado con exito", {
+                position: "top-center",
+            });
+
             onHide();
+            refreshData(prevState => !prevState);
         } catch (error) {
             console.error(error);
+            toast.error("Ha ocurrido un error");
         }
     }
 

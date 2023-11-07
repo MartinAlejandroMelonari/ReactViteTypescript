@@ -13,6 +13,8 @@ const ProductTable = () => {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    const [refreshData, setRefreshData] = useState(false);
+
     useEffect(() => {
         const fetchProducts = async() => {
             const products = await ProductService.getProducts();
@@ -20,7 +22,7 @@ const ProductTable = () => {
             setIsLoading(false);
         };
         fetchProducts();
-    },[]
+    },[refreshData]
     );
 
     console.log(JSON.stringify(products,null,2));
@@ -88,6 +90,7 @@ const ProductTable = () => {
             title={title}
             modalType={modalType}
             prod={product}
+            refreshData={setRefreshData}
             />
         )}
         </>

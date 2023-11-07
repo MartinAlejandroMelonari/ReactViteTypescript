@@ -4,16 +4,16 @@ interface DeleteButtonProps{
     onClick: () => void;
 }
 
-export const DeleteButton = ({onClick}:EditbuttonProps) =< {
-    return(
-        <PencilFill
+export const DeleteButton = ({ onClick }: DeleteButtonProps) => {
+    return (
+        <PencilFill 
             color="#D32F2F"
             size={24}
             onClick={onClick}
-            onMouseEnter={() => {document.body.style.cursor='pointer'}}
-            onMouseLeave={() => {document.body.style.cursor='default'}}
+            onMouseEnter={() => { document.body.style.cursor = 'pointer' }}
+            onMouseLeave={() => { document.body.style.cursor = 'default' }}
         />
-    )
-}
+    );
+};
 
 export default DeleteButton

@@ -7,7 +7,7 @@ type DangerBarProps = {
 const DangerBar = ({value}:DangerBarProps) => {
     const getVariant = (value:number) => {
         if (value<30){
-            return 'sucess';
+            return 'success';
         } else if (value < 60) {
             return 'warning';
         } else {
@@ -16,8 +16,8 @@ const DangerBar = ({value}:DangerBarProps) => {
     };
 
     return (
-        <ProgressBar animated now={value} variant={getVariant=(value)}/>
-    )
+        <ProgressBar animated now={value} variant={getVariant(value)} />
+    );
 }
 
 export default DangerBar
