@@ -1,16 +1,19 @@
-import Header from "./components/Header/Header"
-import Footer from "./components/Footer/Footer"
+import { BrowserRouter as Router } from 'react-router-dom';
+
 import AppRoutes from "./routes/AppRoutes"
-import { BrowserRouter as Router } from "react-router-dom"
-import { Container } from "react-bootstrap"
-import Loader from "./components/Loader/Loader"
-import { Suspense } from "react"
+import Footer from "./components/Footer/Footer"
+
+import Loader from './components/Loader/Loader';
+import { Suspense } from 'react';
+import { Container } from 'react-bootstrap';
+
+//Notificaciones al usuario.
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Header from './components/Header/Header';
 
 
-
-function App() {
+function App () {
   return (
     <>
       <ToastContainer/>
@@ -24,7 +27,7 @@ function App() {
         <Footer/>
       </Router>
     </>
-  )
+    )
 }
 
 export default App

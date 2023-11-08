@@ -10,8 +10,8 @@ const CarouselHome = () => {
             src="src/assets/images/Shrek1.jpg" alt="slide1"
         />
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>¿De que trata esta pagina?</h3>
+          <p>Es una pagina de prueba hecha con react, vite y typescript para un trabajo de Desarrollo de software</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -21,8 +21,8 @@ const CarouselHome = () => {
             src="src/assets/images/Shrek2.jpg" alt="slide2"
         />
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>¿Por qué la tematica de Shrek?</h3>
+          <p>Porque es el tema que con mi grupo elegimos para el trabajo del "El Buen Sabor"</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -32,9 +32,9 @@ const CarouselHome = () => {
             src="src/assets/images/Shrek3.jpg" alt="slide3"
         />
         <Carousel.Caption>
-          <h3>Third slide label</h3>
+          <h3>¿Que hay en las otras opciones?</h3>
           <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+            Se puede tener acceso a una pantalla con componentes y a otra con una tabla sacada el fakestoreapi
           </p>
         </Carousel.Caption>
       </Carousel.Item>
